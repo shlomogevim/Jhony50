@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "387868326169",
+    "project_id": "jhony50",
+    "storage_bucket": "jhony50.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:387868326169:android:75e29eac5d65f03cf8ed88",
+        "android_client_info": {
+          "package_name": "com.sg.jhony50"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "387868326169-lhs07qbd6a65ag6cv0pl901lt3e6irk5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSzO2MUIIyqVPf_7zr_iOsZ5FXYBw6pZA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "387868326169-lhs07qbd6a65ag6cv0pl901lt3e6irk5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
