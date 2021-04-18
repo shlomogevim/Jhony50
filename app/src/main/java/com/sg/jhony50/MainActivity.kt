@@ -35,38 +35,6 @@ class MainActivity : AppCompatActivity() {
         thoughtListView.adapter = thoughtsAdapter
         val layoutManger = LinearLayoutManager(this)
         thoughtListView.layoutManager = layoutManger
-
-        /*thoughtCollectionRef.get()
-            .addOnSuccessListener { snapshot ->
-               *//* for (document in snapshot.documents) {
-                    val data = document.data
-                    Log.i(TAG, "${data}")
-                    if (data != null) {
-                        val name = data[USERNAME] as String
-                        val timestamp = data[TIMESTAMP] as Timestamp
-                        var thoghtTxt = "ff"
-                        if (data[THOUGHT_TXT] != null) {
-                            thoghtTxt = data[THOUGHT_TXT] as String
-                        }
-                        val numLikes = data[NUM_LIKES] as Long
-                        Log.i("message", "numLikes=$numLikes")
-                        val numComments = data[NUM_COMMENTS] as Long
-                        val documentId = document.id
-                        val newThought = Thought(
-                            name, timestamp, thoghtTxt, numLikes.toInt(),
-                            numComments.toInt(), documentId
-                        )
-                        thoughts.add(newThought)
-                    }
-                    thoughtsAdapter.notifyDataSetChanged()
-                }*//*
-
-            }.addOnFailureListener { e ->
-
-                Log.i(TAG, "Canot retrive data because :${e.localizedMessage}")
-
-            }*/
-
     }
 
     override fun onResume() {
@@ -83,66 +51,49 @@ class MainActivity : AppCompatActivity() {
                         Log.i(TAG, "cant retrive data :${exception.localizedMessage}")
                     }
                     if (snapshot != null) {
-                        thoughts.clear()
-                        for (document in snapshot.documents) {
-                            val data = document.data
-                            if (data != null) {
-                                val name = data[USERNAME] as String
-                                val timestamp = data[TIMESTAMP] as Timestamp
-                                var thoghtTxt = "ff"
-                                if (data[THOUGHT_TXT] != null) {
-                                    thoghtTxt = data[THOUGHT_TXT] as String
-                                }
-                                val numLikes = data[NUM_LIKES] as Long
-                                Log.i("message", "numLikes=$numLikes")
-                                val numComments = data[NUM_COMMENTS] as Long
-                                val documentId = document.id
-                                val newThought = Thought(
-                                    name, timestamp, thoghtTxt, numLikes.toInt(),
-                                    numComments.toInt(), documentId
-                                )
+                        parseData(snapshot)
 
-                                thoughts.add(newThought)
-                            }
-                            thoughtsAdapter.notifyDataSetChanged()
-                        }
                     }
                 }
 
         } else {
             thoughtsListener = thoughtCollectionRef
                 .orderBy(TIMESTAMP, Query.Direction.DESCENDING)
-                .whereEqualTo(CATEGORY,selectCategory)
+                .whereEqualTo(CATEGORY, selectCategory)
                 .addSnapshotListener(this) { snapshot, exception ->
                     if (exception != null) {
                         Log.i(TAG, "cant retrive data :${exception.localizedMessage}")
                     }
                     if (snapshot != null) {
-                        thoughts.clear()
-                        for (document in snapshot.documents) {
-                            val data = document.data
-                            if (data != null) {
-                                val name = data[USERNAME] as String
-                                val timestamp = data[TIMESTAMP] as Timestamp
-                                var thoghtTxt = "ff"
-                                if (data[THOUGHT_TXT] != null) {
-                                    thoghtTxt = data[THOUGHT_TXT] as String
-                                }
-                                val numLikes = data[NUM_LIKES] as Long
-                                Log.i("message", "numLikes=$numLikes")
-                                val numComments = data[NUM_COMMENTS] as Long
-                                val documentId = document.id
-                                val newThought = Thought(
-                                    name, timestamp, thoghtTxt, numLikes.toInt(),
-                                    numComments.toInt(), documentId
-                                )
-
-                                thoughts.add(newThought)
-                            }
-                            thoughtsAdapter.notifyDataSetChanged()
-                        }
+                        parseData(snapshot)
                     }
                 }
+        }
+    }
+
+    fun parseData(snapshot: QuerySnapshot) {
+        thoughts.clear()
+        for (document in snapshot.documents) {
+            val data = document.data
+            if (data != null) {
+                val name = data[USERNAME] as String
+                val timestamp = data[TIMESTAMP] as Timestamp
+                var thoghtTxt = "ff"
+                if (data[THOUGHT_TXT] != null) {
+                    thoghtTxt = data[THOUGHT_TXT] as String
+                }
+                val numLikes = data[NUM_LIKES] as Long
+                Log.i("message", "numLikes=$numLikes")
+                val numComments = data[NUM_COMMENTS] as Long
+                val documentId = document.id
+                val newThought = Thought(
+                    name, timestamp, thoghtTxt, numLikes.toInt(),
+                    numComments.toInt(), documentId
+                )
+
+                thoughts.add(newThought)
+            }
+            thoughtsAdapter.notifyDataSetChanged()
         }
     }
 

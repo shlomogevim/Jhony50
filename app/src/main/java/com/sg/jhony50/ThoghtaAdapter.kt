@@ -48,13 +48,13 @@ class ThoughtsAdapter(
             thoughtsText?.text = thought.thoughtTxt
             numLikes?.text = thought.numLikes.toString()
             numComments?.text = thought.numComments.toString()
-            timestamp?.text = thought.timestamp?.toDate().toString()
-            /*itemView.setOnClickListener { itemClick(thought) }
+           // timestamp?.text = thought.timestamp?.toDate().toString()
+           // itemView.setOnClickListener { itemClick(thought) }
             likesImage?.setOnClickListener {
                 FirebaseFirestore.getInstance().collection(THOUGHTS_REF)
                     .document(thought.documentId)
                     .update(NUM_LIKES, thought.numLikes + 1)
-            }*/
+            }
         }
     }
 }
