@@ -7,9 +7,10 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-
         android:theme="@style/Theme.Jhony50">
-        <activity android:name=".AddThoughtActivity"></activity>
+        <activity android:name=".CreateUserActivity"/>
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".AddThoughtActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,4 +21,3 @@
     </application>
 
 </manifest>
-   <!-- android:supportsRtl="true"-->
