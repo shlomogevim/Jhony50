@@ -7,22 +7,23 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
+import com.sg.jhony50.model.Thought
 
 
-/*class ThoughtsAdapter(
+class ThoughtsAdapter(
     private val thoughts: ArrayList<Thought>,
     private val itemClick: (Thought) -> Unit
 ) :
-    RecyclerView.Adapter<ThoughtsAdapter.ViewHolder>() {*/
-class ThoughtsAdapter(
-    private val thoughts: ArrayList<Thought>) :
     RecyclerView.Adapter<ThoughtsAdapter.ViewHolder>() {
+/*class ThoughtsAdapter(
+    private val thoughts: ArrayList<Thought>) :
+    RecyclerView.Adapter<ThoughtsAdapter.ViewHolder>() {*/
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view =
             LayoutInflater.from(parent?.context).inflate(R.layout.thought_list_view, parent, false)
-     //  return ViewHolder(view, itemClick)
-        return ViewHolder(view)
+        //  return ViewHolder(view, itemClick)
+        return ViewHolder(view, itemClick)
 
     }
 
@@ -33,8 +34,12 @@ class ThoughtsAdapter(
     override fun getItemCount() = thoughts.count()
 
 
- //   inner class ViewHolder(itemView: View?, val itemClick: (Thought) -> Unit) :
-    inner class ViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
+    // inner class ViewHolder(itemView: View?, val itemClick: (Thought) -> Unit) :
+    /*inner class ViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {*/
+
+    inner class ViewHolder(itemView: View?, val itemClick: (Thought) -> Unit) :
+        RecyclerView.ViewHolder(itemView!!) {
+
         private val username = itemView?.findViewById<TextView>(R.id.listViewUsername)
         private val timestamp = itemView?.findViewById<TextView>(R.id.listViewTimestamp)
         private val thoughtsText = itemView?.findViewById<TextView>(R.id.listViewToughtTxt)
@@ -48,13 +53,13 @@ class ThoughtsAdapter(
             thoughtsText?.text = thought.thoughtTxt
             numLikes?.text = thought.numLikes.toString()
             numComments?.text = thought.numComments.toString()
-           // timestamp?.text = thought.timestamp?.toDate().toString()
-           // itemView.setOnClickListener { itemClick(thought) }
-            likesImage?.setOnClickListener {
-                FirebaseFirestore.getInstance().collection(THOUGHTS_REF)
-                    .document(thought.documentId)
-                    .update(NUM_LIKES, thought.numLikes + 1)
-            }
+            // timestamp?.text = thought.timestamp?.toDate().toString()
+            // itemView.setOnClickListener { itemClick(thought) }
+            //likesImage?.setOnClickListener {
+            itemView.setOnClickListener { itemClick(thought) }
+            FirebaseFirestore.getInstance().collection(THOUGHTS_REF)
+                .document(thought.documentId)
+                .update(NUM_LIKES, thought.numLikes + 1)
         }
     }
 }

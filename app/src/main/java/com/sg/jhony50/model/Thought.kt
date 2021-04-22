@@ -1,4 +1,4 @@
-package com.sg.jhony50
+package com.sg.jhony50.model
 
 import com.google.firebase.Timestamp
 
