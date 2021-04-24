@@ -1,5 +1,6 @@
 package com.sg.jhony50
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -13,5 +14,10 @@ class LoginActivity : AppCompatActivity() {
     fun loginLoginClicked(view: View) {
         //stam
     }
-    fun loginCreateUserClicked(view: View) {}
+
+    fun loginCreateUserClicked(view: View) {
+        val intent = Intent(this, CreateUserActivity::class.java)
+        startActivity(intent)
+    }
+
 }

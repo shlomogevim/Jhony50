@@ -35,6 +35,9 @@ class MainActivity : AppCompatActivity() {
         thoughtListView.adapter = thoughtsAdapter
         val layoutManger = LinearLayoutManager(this)
         thoughtListView.layoutManager = layoutManger
+
+        var intent=Intent(this,LoginActivity::class.java)
+        startActivity(intent)
     }
 
     override fun onResume() {
