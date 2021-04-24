@@ -7,9 +7,11 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.sg.jhony50.*
 import com.sg.jhony50.Adapters.CommentsAdapter
 import com.sg.jhony50.Model.Comment
@@ -29,6 +31,27 @@ class CommentsActivity : AppCompatActivity() {
         commentsListview.adapter=commentsAdapter
         val layoutManager=LinearLayoutManager(this)
         commentsListview.layoutManager=layoutManager
+
+        FirebaseFirestore.getInstance().collection(THOUGHTS_REF).document(thoughtDocumentId)
+            .collection(COMMENTS_REF)
+            .orderBy(TIMESTAMP,Query.Direction.DESCENDING)
+            .addSnapshotListener { snapshot, exception ->
+                if (exception!=null){
+                    Log.i(TAG,"Cannt retrive comments because :${exception.localizedMessage}")
+                }
+                if (snapshot!=null){
+                    comments.clear()
+                    for (document in snapshot.documents){
+                        val data=document.data
+                        val name= data?.get(USERNAME) as String
+                        val timestamp=data[TIMESTAMP] as Timestamp
+                        val commentText=data[COMMENTS_TXT] as String
+                        val newComment= Comment(name,timestamp,commentText)
+                        comments.add(newComment)
+                    }
+                    commentsAdapter.notifyDataSetChanged()
+                }
+            }
 
     }
 
@@ -59,9 +82,9 @@ class CommentsActivity : AppCompatActivity() {
             }
     }
     private fun hideKeyboard(){
-        val inptManagar=getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        if (inptManagar.isAcceptingText){
-            inptManagar.hideSoftInputFromWindow(currentFocus?.windowToken,0)
+        val inputManagar=getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        if (inputManagar.isAcceptingText){
+            inputManagar.hideSoftInputFromWindow(currentFocus?.windowToken,0)
         }
     }
 }
