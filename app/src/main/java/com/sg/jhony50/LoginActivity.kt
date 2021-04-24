@@ -10,6 +10,8 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
     }
 
-    fun loginLoginClicked(view: View) {}
+    fun loginLoginClicked(view: View) {
+        //stam
+    }
     fun loginCreateUserClicked(view: View) {}
 }
