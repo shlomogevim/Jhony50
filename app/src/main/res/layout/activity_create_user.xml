@@ -61,6 +61,7 @@
         android:background="@drawable/category_toggle"
         android:onClick="createCreateClicked"
         android:text="Create User"
+        app:backgroundTint="@null"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/createUsernameTxt" />
