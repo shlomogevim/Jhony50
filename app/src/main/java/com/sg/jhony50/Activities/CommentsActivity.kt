@@ -6,19 +6,30 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.sg.jhony50.*
+import com.sg.jhony50.Adapters.CommentsAdapter
+import com.sg.jhony50.Model.Comment
 import kotlinx.android.synthetic.main.activity_comments.*
 
 class CommentsActivity : AppCompatActivity() {
     lateinit var thoughtDocumentId:String
+    val comments = arrayListOf<Comment>()
+    lateinit var commentsAdapter:CommentsAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_comments)
         thoughtDocumentId=intent.getStringExtra(DOCUMENT_KEY)
-        //Log.i(com.sg.jhony50.TAG," thoughtDocumentId=$thoughtDocumentId ")
+
+        commentsAdapter= CommentsAdapter(comments)
+        commentsListview.adapter=commentsAdapter
+        val layoutManager=LinearLayoutManager(this)
+        commentsListview.layoutManager=layoutManager
+
     }
 
     fun addCommentClick(view: View) {
