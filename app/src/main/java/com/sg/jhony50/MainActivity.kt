@@ -4,10 +4,13 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.Timestamp
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
@@ -21,11 +24,13 @@ class MainActivity : AppCompatActivity() {
     var thoughts = ArrayList<Thought>()
     val thoughtCollectionRef = FirebaseFirestore.getInstance().collection(THOUGHTS_REF)
     lateinit var thoughtsListener: ListenerRegistration
+    lateinit var auth:FirebaseAuth
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        auth= FirebaseAuth.getInstance()
         selectCategory = FUNNY
         fab.setOnClickListener {
             var intent = Intent(this, AddThoughtActivity::class.java)
@@ -36,15 +41,61 @@ class MainActivity : AppCompatActivity() {
         val layoutManger = LinearLayoutManager(this)
         thoughtListView.layoutManager = layoutManger
 
-        var intent=Intent(this,LoginActivity::class.java)
-        startActivity(intent)
+
     }
 
     override fun onResume() {
         super.onResume()
-        setListener()
+        updateUi()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu,menu)
+        return true
+    }
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        val menuItem = menu.getItem(0)
+        if (auth.currentUser == null) {
+            //logout
+            menuItem.title = "Login"
+        } else {
+            //login
+            menuItem.title = "Logout"
+            updateUi()
+        }
+        return super.onPrepareOptionsMenu(menu)
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.action_login) {
+            if (auth.currentUser == null) {
+                val loginIntent = Intent(this, LoginActivity::class.java)
+                startActivity(loginIntent)
+            } else {
+                auth.signOut()
+               updateUi()
+            }
+            return true
+        }
+        return false
+    }
+    fun updateUi() {
+        if (auth.currentUser == null) {
+            mainCrazyBtn.isEnabled = false
+            mainPopularBtn.isEnabled = false
+            mainFunnyBtn.isEnabled = false
+            mainSeriousBtn.isEnabled = false
+            fab.isEnabled = false
+            thoughts.clear()
+            thoughtsAdapter.notifyDataSetChanged()
+        } else {
+            mainCrazyBtn.isEnabled = true
+            mainPopularBtn.isEnabled = true
+            mainFunnyBtn.isEnabled = true
+            mainSeriousBtn.isEnabled = true
+            fab.isEnabled = true
+            setListener()
+        }
+    }
     fun setListener() {
         if (selectCategory == POPULAR) {
             thoughtsListener = thoughtCollectionRef
