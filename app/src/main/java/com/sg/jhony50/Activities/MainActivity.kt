@@ -1,4 +1,4 @@
-package com.sg.jhony50
+package com.sg.jhony50.Activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
@@ -15,7 +14,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
-import com.sg.jhony50.AddThoughtActivity
+import com.sg.jhony50.*
+import com.sg.jhony50.Model.Thought
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -36,7 +36,11 @@ class MainActivity : AppCompatActivity() {
             var intent = Intent(this, AddThoughtActivity::class.java)
             startActivity(intent)
         }
-        thoughtsAdapter = ThoughtsAdapter(thoughts)
+        thoughtsAdapter = ThoughtsAdapter(thoughts){thought ->
+            var commentActivity= Intent(this,CommentsActivity::class.java)
+            commentActivity.putExtra(DOCUMENT_KEY,thought.documentId)
+            startActivity(commentActivity)
+        }
         thoughtListView.adapter = thoughtsAdapter
         val layoutManger = LinearLayoutManager(this)
         thoughtListView.layoutManager = layoutManger

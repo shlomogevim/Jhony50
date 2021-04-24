@@ -1,4 +1,4 @@
-package com.sg.jhony50
+package com.sg.jhony50.Activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.activity_login.*
+import com.sg.jhony50.R
 
 class LoginActivity : AppCompatActivity() {
     lateinit var auth:FirebaseAuth
@@ -21,14 +21,14 @@ class LoginActivity : AppCompatActivity() {
          val password=loginPasswordTxt.text.toString()*/
         val email="shlomo10@gmail.com"
         val password="123456"
-        Log.i(TAG,"inside loginActivity1 email=$email,password=$password")
+        Log.i(com.sg.jhony50.TAG,"inside loginActivity1 email=$email,password=$password")
         auth.signInWithEmailAndPassword(email,password)
             .addOnSuccessListener {
-                Log.i(TAG,"inside loginActivity2 email=$email,password=$password")
+                Log.i(com.sg.jhony50.TAG,"inside loginActivity2 email=$email,password=$password")
                 finish()
             }
             .addOnFailureListener { exception->
-                Log.e(TAG,"Could not sign in usert:${exception.localizedMessage}")
+                Log.e(com.sg.jhony50.TAG,"Could not sign in usert:${exception.localizedMessage}")
             }
     }
 

@@ -1,4 +1,4 @@
-package com.sg.jhony50
+package com.sg.jhony50.Activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,6 +8,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.sg.jhony50.DATE_CREATED
+import com.sg.jhony50.R
+import com.sg.jhony50.USERNAME
+import com.sg.jhony50.USERS_REF
 import kotlinx.android.synthetic.main.activity_create_user.*
 
 class CreateUserActivity : AppCompatActivity() {
@@ -22,18 +26,19 @@ class CreateUserActivity : AppCompatActivity() {
         val email = createEmailTxt.text.toString()
         val password = cratePasswordText.text.toString()
         val username = createUsernameTxt.text.toString()
-        Log.i(TAG,"email=$email ,password=$password ,username=$username")
+        Log.i(com.sg.jhony50.TAG,"email=$email ,password=$password ,username=$username")
 
         auth.createUserWithEmailAndPassword(email, password)
             .addOnSuccessListener { result ->
-                Log.e(TAG, "insid1: ${result}")
+                Log.e(com.sg.jhony50.TAG, "insid1: ${result}")
                 val changeRequest = UserProfileChangeRequest.Builder()
                     .setDisplayName(username)
                     .build()
-                Log.e(TAG, "insid2: ${result}")
+                Log.e(com.sg.jhony50.TAG, "insid2: ${result}")
                 result.user.updateProfile(changeRequest)
                     .addOnFailureListener { exception ->
-                        Log.e( TAG,"could not update display name: ${exception.localizedMessage}"
+                        Log.e(
+                            com.sg.jhony50.TAG,"could not update display name: ${exception.localizedMessage}"
                         )
                     }
                 val data = HashMap<String, Any>()
@@ -46,7 +51,7 @@ class CreateUserActivity : AppCompatActivity() {
                         finish()
                     }
                     .addOnFailureListener { exception ->
-                       Log.i( TAG,"could not add user document: ${exception.localizedMessage}")
+                       Log.i(com.sg.jhony50.TAG,"could not add user document: ${exception.localizedMessage}")
                     }
             }
             .addOnFailureListener { exception ->

@@ -1,4 +1,4 @@
-package com.sg.jhony50
+package com.sg.jhony50.Activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -6,7 +6,7 @@ import android.util.Log
 import android.view.View
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
-import com.sg.jhony50.R
+import com.sg.jhony50.*
 import kotlinx.android.synthetic.main.activity_add_thought.*
 
 class AddThoughtActivity : AppCompatActivity() {
